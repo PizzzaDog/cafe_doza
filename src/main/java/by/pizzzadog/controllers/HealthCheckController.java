@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheckController extends BaseController {
     private final QRService qrService;
 
-    @Value("${my.env.val}")
-    private String envVal;
+//    @Value("${my.env.val}")
+//    private String envVal;
 
     @GetMapping("/alive")
     public String isAlive() {
         return "Alive";
     }
 
-    @GetMapping("/env_var")
-    public String checkEnvVar() {
-        return envVal;
-    }
+//    @GetMapping("/env_var")
+//    public String checkEnvVar() {
+//        return envVal;
+//    }
 
     @GetMapping("/fuck_off")
     public String checkQR() {
