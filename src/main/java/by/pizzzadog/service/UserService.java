@@ -19,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final QRService qrService;
     private final UserMapper userMapper;
+    private final JwtService tokenService;
 
     public SessionUserDto registerUser(RegisterUserDto userDto) {
         MyUser user = new MyUser();
@@ -30,6 +31,7 @@ public class UserService {
         user.setCreateDate(LocalDateTime.now());
         MyUser save = userRepository.save(user);
         save.setQrId(qrService.generateQr(user));
+        user.setToken(tokenService.generateToken(user));
         userRepository.save(save);
         return userMapper.toSessionUserDto(save);
     }

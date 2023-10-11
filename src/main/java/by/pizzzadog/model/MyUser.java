@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,6 +24,7 @@ import java.util.List;
 public class MyUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;
@@ -34,11 +37,8 @@ public class MyUser {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Cup> cups;
-
-    @Basic
-    private Integer cupsCount;
+//    @Basic
+//    private Integer cupsCount;
 
     private Integer gifts;
 

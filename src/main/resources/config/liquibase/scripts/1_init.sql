@@ -21,7 +21,7 @@ create table personal_qr
     id          integer not null auto_increment,
     code        bigint,
     create_date datetime(6),
-    data        tinyblob,
+    data        longblob,
     user_id     bigint,
     url         varchar(255),
     constraint personal_qr_pk primary key (id)
@@ -48,6 +48,7 @@ create table user
     gifts       integer,
     password    varchar(255),
     qr_url      varchar(255),
+    qr_id       integer,
     role_id     integer,
     token       varchar(255),
     username    varchar(255),
