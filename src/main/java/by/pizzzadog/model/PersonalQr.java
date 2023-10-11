@@ -23,6 +23,8 @@ public class PersonalQr {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private MyUser user;
 
+    private String url;
+
     private Long code;
 
     private byte[] data;

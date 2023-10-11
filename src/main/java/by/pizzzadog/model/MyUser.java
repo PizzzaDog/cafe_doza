@@ -3,10 +3,12 @@ package by.pizzzadog.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
@@ -20,7 +22,7 @@ import java.util.List;
 public class MyUser {
 
     @Id
-    private String id;
+    private Long id;
 
     private String email;
 
@@ -28,16 +30,22 @@ public class MyUser {
 
     private String password;
 
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Cup> cups;
+
+    @Basic
+    private Integer cupsCount;
 
     private Integer gifts;
 
     private String token;
 
-    private String qrUrl;
+    @Basic
+    private Integer qrId;
 
     private LocalDateTime createDate;
 }
