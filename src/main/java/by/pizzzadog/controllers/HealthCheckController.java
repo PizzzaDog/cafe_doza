@@ -53,7 +53,7 @@ public class HealthCheckController extends BaseController {
         user.setGifts(1);
         user.setCups(7);
         user.setName("Pushka");
-        user.setQrUrl("woofwoof.space/qr");
+        user.setQrUrl("woofwoof.space/api/v1/qr");
         user.setToken("some_mega_token_$$$");
         return user;
 //        return null;
