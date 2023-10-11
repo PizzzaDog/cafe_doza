@@ -4,6 +4,7 @@ import by.pizzzadog.model.MyUser;
 import by.pizzzadog.model.TokenDto;
 import by.pizzzadog.service.QRService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheckController extends BaseController {
     private final QRService qrService;
 
+    @Value("${my.env.val}")
+    private String envVal;
+
     @GetMapping("/alive")
     public String isAlive() {
         return "Alive";
+    }
+
+    @GetMapping("/env_var")
+    public String checkEnvVar() {
+        return envVal;
     }
 
     @GetMapping("/fuck_off")
