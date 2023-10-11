@@ -1,7 +1,10 @@
 package by.pizzzadog.controllers;
 
+import by.pizzzadog.constant.Routes;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/v1")
+@RestController
+@RequestMapping(value = {Routes.API_ROUTE})
 public class BaseController {
 }
