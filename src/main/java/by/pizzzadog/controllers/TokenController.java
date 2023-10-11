@@ -9,13 +9,14 @@ public class TokenController extends BaseController {
 
     @GetMapping("/get_userrr")
     public MyUser getUser() {
-        MyUser user = new MyUser();
-        user.setGifts(1);
-        user.setCups(7);
-        user.setName("Pushka");
-        user.setQrUrl("http://45.82.71.93:8088/qr");
-        user.setToken("some_mega_token_$$$");
-        return user;
+//        MyUser user = new MyUser();
+//        user.setGifts(1);
+//        user.setCups(7);
+//        user.setUsername("Pushka");
+//        user.setQrUrl("http://45.82.71.93:8088/qr");
+//        user.setToken("some_mega_token_$$$");
+//        return user;
+        return null;
     }
 
 }

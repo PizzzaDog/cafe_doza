@@ -1,4 +1,4 @@
-package by.pizzzadog.model;
+package by.pizzzadog.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

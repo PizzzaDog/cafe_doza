@@ -1,10 +1,9 @@
 package by.pizzzadog.controllers;
 
 import by.pizzzadog.model.MyUser;
-import by.pizzzadog.model.TokenDto;
+import by.pizzzadog.dto.TokenDto;
 import by.pizzzadog.service.QRService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,25 +48,26 @@ public class HealthCheckController extends BaseController {
 
     @GetMapping("/get_user")
     public MyUser getUser() {
-        MyUser user = new MyUser();
-        user.setGifts(1);
-        user.setCups(7);
-        user.setName("Pushka");
-        user.setQrUrl("http://45.82.71.93:8088/qr");
-        user.setToken("some_mega_token_$$$");
-        return user;
+//        MyUser user = new MyUser();
+//        user.setGifts(1);
+//        user.setCups(7);
+//        user.setUsername("Pushka");
+//        user.setQrUrl("http://45.82.71.93:8088/qr");
+//        user.setToken("some_mega_token_$$$");
+//        return user;
+        return null;
     }
 
     @PostMapping("/check_token")
     public MyUser postUser(@RequestParam String token) {
         if (token.equals("65749302043")) {
-            MyUser user = new MyUser();
-            user.setGifts(1);
-            user.setCups(7);
-            user.setName("Pushka");
-            user.setQrUrl("http://45.82.71.93:8088/qr");
-            user.setToken("some_mega_token_$$$");
-            return user;
+//            MyUser user = new MyUser();
+//            user.setGifts(1);
+//            user.setCups(7);
+//            user.setUsername("Pushka");
+//            user.setQrUrl("http://45.82.71.93:8088/qr");
+//            user.setToken("some_mega_token_$$$");
+//            return user;
         }
         return null;
     }
@@ -75,13 +75,13 @@ public class HealthCheckController extends BaseController {
     @PostMapping("/check_json_token")
     public MyUser posstUser(@RequestBody TokenDto token) {
         if (token.getToken().equals("65749302043")) {
-            MyUser user = new MyUser();
-            user.setGifts(1);
-            user.setCups(7);
-            user.setName("Pushka");
-            user.setQrUrl("http://45.82.71.93:8088/qr");
-            user.setToken("some_mega_token_$$$");
-            return user;
+//            MyUser user = new MyUser();
+//            user.setGifts(1);
+//            user.setCups(7);
+//            user.setUsername("Pushka");
+//            user.setQrUrl("http://45.82.71.93:8088/qr");
+//            user.setToken("some_mega_token_$$$");
+//            return user;
         }
         return null;
     }
