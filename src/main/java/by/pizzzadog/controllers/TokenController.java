@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TokenController {
 
-    @GetMapping("/get_user")
+    @GetMapping("/get_userr")
     public MyUser getUser() {
         MyUser user = new MyUser();
         user.setGifts(1);
