@@ -12,6 +12,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+                .allowedOrigins("https://woofwoof.space")
                 .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
 }
