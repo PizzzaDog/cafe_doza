@@ -3,7 +3,7 @@ FROM maven:3.8.1-adoptopenjdk-11 as builder
 WORKDIR /opt/app
 COPY pom.xml .
 RUN mvn -B -f pom.xml dependency:go-offline
-COPY ./src/main/resources/application-prod.properties ./src/main/resources/application-prod.properties
+COPY ./src/main/resources/application-prod.properties ./opt/app/application-prod.properties
 COPY ./src ./src
 RUN mvn -B install
 
