@@ -38,10 +38,9 @@ public class QRService {
                 .from(codeStr)
                 .withSize(250, 250)
                 .stream();
-        ByteArrayInputStream qr = new ByteArrayInputStream(stream.toByteArray());
         personalQr.setUser(user);
         personalQr.setCode(code);
-        personalQr.setData(qr.readAllBytes());
+        personalQr.setData(stream.toByteArray());
         personalQr.setCreateDate(now);
         PersonalQr save = qrRepository.save(personalQr);
         return save.getId();
@@ -49,5 +48,9 @@ public class QRService {
 
     public String getById(Integer qrId) {
         return qrRepository.findById(qrId).get().getUrl();
+    }
+
+    public byte[] getByUserId(Long userId) {
+        return qrRepository.getByUserId(userId).getData();
     }
 }

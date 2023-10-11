@@ -1,5 +1,6 @@
 package by.pizzzadog.controllers;
 
+import by.pizzzadog.dto.SessionUserDto;
 import by.pizzzadog.model.MyUser;
 import by.pizzzadog.dto.TokenDto;
 import by.pizzzadog.service.QRService;
@@ -47,15 +48,15 @@ public class HealthCheckController extends BaseController {
     }
 
     @GetMapping("/get_user")
-    public MyUser getUser() {
-//        MyUser user = new MyUser();
-//        user.setGifts(1);
-//        user.setCups(7);
-//        user.setUsername("Pushka");
-//        user.setQrUrl("http://45.82.71.93:8088/qr");
-//        user.setToken("some_mega_token_$$$");
-//        return user;
-        return null;
+    public SessionUserDto getUser() {
+        SessionUserDto user = new SessionUserDto();
+        user.setGifts(1);
+        user.setCups(7);
+        user.setName("Pushka");
+        user.setQrUrl("woofwoof.space/qr");
+        user.setToken("some_mega_token_$$$");
+        return user;
+//        return null;
     }
 
     @PostMapping("/check_token")
