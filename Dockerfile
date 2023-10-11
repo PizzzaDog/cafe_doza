@@ -9,7 +9,7 @@ RUN mvn -B install
 
 FROM openjdk:11-jdk-slim
 WORKDIR /opt/app
-COPY --chown=1000:1000 ./src/main/resources/application-prod.properties /opt/app/application-prod.properties
+COPY --chown=1000:1000 ./application-prod.properties /opt/app/application-prod.properties
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 EXPOSE 8088
 ENTRYPOINT ["java", \
