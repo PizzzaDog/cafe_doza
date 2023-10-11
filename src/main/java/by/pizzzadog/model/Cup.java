@@ -2,7 +2,6 @@ package by.pizzzadog.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
