@@ -4,7 +4,7 @@ import by.pizzzadog.model.MyUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/token")
+@RestController
 public class TokenController {
 
     @GetMapping("/get_user")
