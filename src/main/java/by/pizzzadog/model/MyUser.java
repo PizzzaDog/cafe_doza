@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class MyUser {
     private String name;
 //    private String email;
+    private String role;
     private Integer cups;
     private Integer gifts;
     private String token;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class HealthCheckController {
+public class HealthCheckController extends BaseController {
     private final QRService qrService;
 
     @GetMapping("/alive")
