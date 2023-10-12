@@ -38,6 +38,8 @@ create table token
     create_date datetime(6),
     dead_date   datetime(6),
     value       varchar(255),
+    user_id     bigint,
+    is_alive    boolean default true,
     constraint token_pk primary key (id)
 );
 create table user
@@ -70,7 +72,9 @@ alter table user
     add constraint fk_user_role foreign key (role_id) references role (id);
 alter table personal_qr
     add constraint fk_qr_user foreign key (user_id) references user (id);
+alter table token
+    add constraint fk_token_user foreign key (user_id) references user (id);
 alter table user_cups
     add constraint fk_user_cup_user foreign key (cup_id) references cup (id);
 alter table user_cups
-    add constraint fk_user_cup_cup foreign key (user_id) references user (id)
+    add constraint fk_user_cup_cup foreign key (user_id) references user (id);
