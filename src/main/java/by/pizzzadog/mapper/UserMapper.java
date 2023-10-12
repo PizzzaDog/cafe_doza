@@ -14,6 +14,7 @@ public class UserMapper {
     public SessionUserDto toSessionUserDto(MyUser user) {
         SessionUserDto sessionUserDto = new SessionUserDto();
         sessionUserDto.setName(user.getUsername());
+        sessionUserDto.setEmail(user.getEmail());
         sessionUserDto.setQrUrl(qrService.getById(user.getQr().getId()));
         sessionUserDto.setToken(user.getToken());
         sessionUserDto.setGifts(user.getGifts());

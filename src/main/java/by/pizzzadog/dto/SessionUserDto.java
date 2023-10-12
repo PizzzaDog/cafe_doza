@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SessionUserDto {
     private String name;
+    private String email;
     private String token;
     private Integer gifts;
     private Integer cups;
