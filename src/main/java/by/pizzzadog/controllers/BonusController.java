@@ -19,7 +19,7 @@ public class BonusController extends BaseController{
     }
 
     @PostMapping("/gifts/remove")
-    public SessionUserDto removeGiftsFromUser() {
-        return null;
+    public SessionUserDto removeGiftsFromUser(@RequestBody BonusUserDto bonusUserDto) {
+        return userService.removeGiftsFromUser(bonusUserDto);
     }
 }

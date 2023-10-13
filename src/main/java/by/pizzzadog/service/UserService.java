@@ -115,6 +115,10 @@ public class UserService {
     }
 
     public SessionUserDto addCupsToUser(BonusUserDto bonusUserDto) {
+        RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
+        if (!"ADMIN".equals(role.getRole())) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
         MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
         //TODO check name
@@ -132,5 +136,20 @@ public class UserService {
         cupRepository.save(cup);
         userRepository.save(user);
         return userMapper.toSessionUserDto(user);
+    }
+
+    public SessionUserDto removeGiftsFromUser(BonusUserDto bonusUserDto) {
+        RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
+        if (!"ADMIN".equals(role.getRole())) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
+        MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
+        Integer count = bonusUserDto.getCount();
+        if (user.getGifts() < count) {
+            throw new RuntimeException("Not enough gifts for user " + bonusUserDto.getName() + bonusUserDto.getEmail());
+        }
+        user.setGifts(user.getGifts() - count);
+        return userMapper.toSessionUserDto(userRepository.save(user));
     }
 }
