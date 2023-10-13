@@ -99,7 +99,7 @@ public class UserService {
         if ("ADMIN".equals(user.getRole().getName())) {
             PersonalQr qrForUser = qrRepository.findByCode(qrCode)
                     .orElseThrow(() -> new RuntimeException("No user found by qr"));
-            userMapper.toSessionUserDto(qrForUser.getUser());
+            return userMapper.toSessionUserDto(qrForUser.getUser());
         }
         return null;
     }
