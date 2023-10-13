@@ -46,14 +46,14 @@ create table user
 (
     id          bigint auto_increment,
     create_date datetime(6),
-    email       varchar(255),
+    email       varchar(255) unique,
     gifts       integer,
     password    varchar(255),
     qr_url      varchar(255),
     qr_id       integer,
     role_id     integer,
     token       varchar(255),
-    username    varchar(255),
+    username    varchar(255) unique,
     constraint user_pk primary key (id)
 );
 create table user_cups
