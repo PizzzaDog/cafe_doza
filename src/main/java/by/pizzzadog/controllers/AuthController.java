@@ -8,6 +8,7 @@ import by.pizzzadog.dto.response.RoleResponse;
 import by.pizzzadog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,13 @@ public class AuthController extends BaseController {
     private final UserService userService;
 
     @PostMapping("/registration")
-    public SessionUserDto registerUser(@RequestBody RegisterUserDto user) {
+    public ResponseEntity registerUser(@RequestBody RegisterUserDto user) {
         log.info("POST: /registration");
-        return userService.registerUser(user);
+        SessionUserDto sessionUserDto = userService.registerUser(user);
+        if (sessionUserDto == null) {
+            return ResponseEntity.badRequest().body("User with that mail already exist");
+        }
+        return ResponseEntity.ok().body(userService.registerUser(user));
     }
 
     @PostMapping("/login")

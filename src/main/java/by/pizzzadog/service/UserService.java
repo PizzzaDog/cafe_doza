@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +37,10 @@ public class UserService {
     private final CupRepository cupRepository;
 
     public SessionUserDto registerUser(RegisterUserDto userDto) {
+        Optional<MyUser> byEmail = userRepository.findByEmail(userDto.getEmail());
+        if (byEmail.isPresent()) {
+            return null;
+        }
         MyUser user = new MyUser();
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getName());
