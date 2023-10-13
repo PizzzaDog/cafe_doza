@@ -5,6 +5,7 @@ import by.pizzzadog.dto.TokenDto;
 import by.pizzzadog.dto.request.LoginRequestDto;
 import by.pizzzadog.dto.request.LogoutRequest;
 import by.pizzzadog.dto.request.RegisterUserDto;
+import by.pizzzadog.dto.request.response.RoleResponse;
 import by.pizzzadog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -38,7 +39,7 @@ public class AuthController extends BaseController {
     }
 
     @PostMapping("/role")
-    public String getUserRole(@RequestBody LogoutRequest request) {
+    public RoleResponse getUserRole(@RequestBody LogoutRequest request) {
         return userService.getRole(request);
     }
 }

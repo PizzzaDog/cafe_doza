@@ -4,6 +4,7 @@ import by.pizzzadog.dto.SessionUserDto;
 import by.pizzzadog.dto.request.LoginRequestDto;
 import by.pizzzadog.dto.request.LogoutRequest;
 import by.pizzzadog.dto.request.RegisterUserDto;
+import by.pizzzadog.dto.request.response.RoleResponse;
 import by.pizzzadog.exception.AuthException;
 import by.pizzzadog.mapper.UserMapper;
 import by.pizzzadog.model.MyUser;
@@ -85,8 +86,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String getRole(LogoutRequest request) {
+    public RoleResponse getRole(LogoutRequest request) {
         MyUser user = getValidUserByEmailAndToken(request.getEmail(), request.getToken());
-        return user.getRole().getName();
+        return new RoleResponse(user.getRole().getName());
     }
 }
