@@ -80,7 +80,7 @@ public class UserService {
 
     public MyUser getValidUserByEmailAndToken(String email, String tokenStr) {
         MyUser user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthException("User with this email not found"));
+                .orElseThrow(() -> new AuthException("VALID User with this email not found " + email));
         Token token = tokenService.getByUserOrGenerate(user);
         boolean isValid = tokenStr.equals(token.getValue());
         if (!isValid) {
