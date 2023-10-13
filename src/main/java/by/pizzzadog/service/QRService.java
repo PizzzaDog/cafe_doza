@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 //TODO migrate to front
 public class QRService {
-    private static final String BASE_URL = "woofwoof.space/api/v1/qr/";
+    private static final String BASE_URL = "https://woofwoof.space/api/v1/qr/";
 
     private final QrRepository qrRepository;
 
