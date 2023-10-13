@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class LogoutRequest {
+public class LogTokenRequest {
 
     private String email;
     private String token;

@@ -1,14 +1,12 @@
 package by.pizzzadog.controllers;
 
 import by.pizzzadog.dto.SessionUserDto;
-import by.pizzzadog.dto.TokenDto;
 import by.pizzzadog.dto.request.LoginRequestDto;
-import by.pizzzadog.dto.request.LogoutRequest;
+import by.pizzzadog.dto.request.LogTokenRequest;
 import by.pizzzadog.dto.request.RegisterUserDto;
-import by.pizzzadog.dto.request.response.RoleResponse;
+import by.pizzzadog.dto.response.RoleResponse;
 import by.pizzzadog.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,13 +31,13 @@ public class AuthController extends BaseController {
     }
 
     @PostMapping("/logout")
-    public Boolean logout(@RequestBody LogoutRequest logoutRequest) {
+    public Boolean logout(@RequestBody LogTokenRequest logTokenRequest) {
         log.info("POST: /logout");
-        return userService.logout(logoutRequest);
+        return userService.logout(logTokenRequest);
     }
 
     @PostMapping("/role")
-    public RoleResponse getUserRole(@RequestBody LogoutRequest request) {
+    public RoleResponse getUserRole(@RequestBody LogTokenRequest request) {
         return userService.getRole(request);
     }
 }

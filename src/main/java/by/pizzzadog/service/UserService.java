@@ -2,13 +2,15 @@ package by.pizzzadog.service;
 
 import by.pizzzadog.dto.SessionUserDto;
 import by.pizzzadog.dto.request.LoginRequestDto;
-import by.pizzzadog.dto.request.LogoutRequest;
+import by.pizzzadog.dto.request.LogTokenRequest;
 import by.pizzzadog.dto.request.RegisterUserDto;
-import by.pizzzadog.dto.request.response.RoleResponse;
+import by.pizzzadog.dto.response.RoleResponse;
 import by.pizzzadog.exception.AuthException;
 import by.pizzzadog.mapper.UserMapper;
 import by.pizzzadog.model.MyUser;
+import by.pizzzadog.model.PersonalQr;
 import by.pizzzadog.model.Token;
+import by.pizzzadog.repository.QrRepository;
 import by.pizzzadog.repository.RoleRepository;
 import by.pizzzadog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final QRService qrService;
+    private final QrRepository qrRepository;
     private final UserMapper userMapper;
     private final JwtService tokenService;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -46,8 +49,8 @@ public class UserService {
         return passwordEncoder.encode(pass);
     }
 
-    public boolean logout(LogoutRequest logoutRequest) {
-        MyUser user = getValidUserByEmailAndToken(logoutRequest.getEmail(), logoutRequest.getToken());
+    public boolean logout(LogTokenRequest logTokenRequest) {
+        MyUser user = getValidUserByEmailAndToken(logTokenRequest.getEmail(), logTokenRequest.getToken());
         tokenService.disableToken(tokenService.getByUserOrGenerate(user));
         user.setToken(null);
         userRepository.save(user);
@@ -86,8 +89,18 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public RoleResponse getRole(LogoutRequest request) {
+    public RoleResponse getRole(LogTokenRequest request) {
         MyUser user = getValidUserByEmailAndToken(request.getEmail(), request.getToken());
         return new RoleResponse(user.getRole().getName());
+    }
+
+    public SessionUserDto getByCodeAndAuth(Long qrCode, LogTokenRequest auth) {
+        MyUser user = getValidUserByEmailAndToken(auth.getEmail(), auth.getToken());
+        if ("ADMIN".equals(user.getRole().getName())) {
+            PersonalQr qrForUser = qrRepository.findByCode(qrCode)
+                    .orElseThrow(() -> new RuntimeException("No user found by qr"));
+            userMapper.toSessionUserDto(qrForUser.getUser());
+        }
+        return null;
     }
 }

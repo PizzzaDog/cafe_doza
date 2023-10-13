@@ -1,4 +1,4 @@
-package by.pizzzadog.dto.request.response;
+package by.pizzzadog.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
