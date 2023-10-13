@@ -18,8 +18,7 @@ public class UserMapper {
         sessionUserDto.setQrUrl(qrService.getById(user.getQr().getId()));
         sessionUserDto.setToken(user.getToken());
         sessionUserDto.setGifts(user.getGifts());
-        //TODO
-        sessionUserDto.setCups(0);
+        sessionUserDto.setCups(user.getCups());
         return sessionUserDto;
     }
 }

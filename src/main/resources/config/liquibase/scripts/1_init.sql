@@ -12,8 +12,10 @@ create table clicker_round
 );
 create table cup
 (
-    id      bigint not null auto_increment,
-    user_id bigint,
+    id          bigint      not null auto_increment,
+    user_id     bigint,
+    create_date datetime(6) not null,
+    count       integer     not null,
     constraint cup_pk primary key (id)
 );
 create table personal_qr
@@ -47,7 +49,8 @@ create table user
     id          bigint auto_increment,
     create_date datetime(6),
     email       varchar(255) unique,
-    gifts       integer,
+    gifts       integer not null default 0,
+    cups        integer not null default 0,
     password    varchar(255),
     qr_url      varchar(255),
     qr_id       integer,
@@ -58,8 +61,8 @@ create table user
 );
 create table user_cups
 (
-    user_id   bigint       not null,
-    cup_id    bigint       not null
+    user_id bigint not null,
+    cup_id  bigint not null
 );
 
 alter table user_cups

@@ -1,15 +1,18 @@
 package by.pizzzadog.service;
 
 import by.pizzzadog.dto.SessionUserDto;
+import by.pizzzadog.dto.request.BonusUserDto;
 import by.pizzzadog.dto.request.LoginRequestDto;
 import by.pizzzadog.dto.request.LogTokenRequest;
 import by.pizzzadog.dto.request.RegisterUserDto;
 import by.pizzzadog.dto.response.RoleResponse;
 import by.pizzzadog.exception.AuthException;
 import by.pizzzadog.mapper.UserMapper;
+import by.pizzzadog.model.Cup;
 import by.pizzzadog.model.MyUser;
 import by.pizzzadog.model.PersonalQr;
 import by.pizzzadog.model.Token;
+import by.pizzzadog.repository.CupRepository;
 import by.pizzzadog.repository.QrRepository;
 import by.pizzzadog.repository.RoleRepository;
 import by.pizzzadog.repository.UserRepository;
@@ -30,6 +33,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final JwtService tokenService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CupRepository cupRepository;
 
     public SessionUserDto registerUser(RegisterUserDto userDto) {
         MyUser user = new MyUser();
@@ -107,6 +111,26 @@ public class UserService {
     public SessionUserDto refreshSessionUser(LogTokenRequest logTokenRequest) {
         MyUser user = getValidUserByEmailAndToken(logTokenRequest.getEmail(),
                 logTokenRequest.getToken());
+        return userMapper.toSessionUserDto(user);
+    }
+
+    public SessionUserDto addCupsToUser(BonusUserDto bonusUserDto) {
+        MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
+        //TODO check name
+        Integer currentCups = user.getCups();
+        currentCups += bonusUserDto.getCount();
+        while (currentCups >= 10) {
+            user.setGifts(user.getGifts() + 1);
+            currentCups -= 10;
+        }
+        user.setCups(currentCups);
+        Cup cup = new Cup();
+        cup.setCount(bonusUserDto.getCount());
+        cup.setOwner(user);
+        cup.setCreateDate(LocalDateTime.now());
+        cupRepository.save(cup);
+        userRepository.save(user);
         return userMapper.toSessionUserDto(user);
     }
 }

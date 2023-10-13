@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,9 @@ public class MyUser {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    private Integer gifts;
+    private Integer gifts = 0;
+
+    private Integer cups = 0;
 
     private String token;
 
