@@ -43,9 +43,11 @@ public class MyUser {
 
     private String token;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "qr_id", referencedColumnName = "id")
     private PersonalQr qr;
 
     private LocalDateTime createDate;
+
+    private Integer record;
 }
