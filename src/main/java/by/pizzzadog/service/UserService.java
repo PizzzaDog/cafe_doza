@@ -84,4 +84,9 @@ public class UserService {
     public void save(MyUser user) {
         userRepository.save(user);
     }
+
+    public String getRole(LogoutRequest request) {
+        MyUser user = getValidUserByEmailAndToken(request.getEmail(), request.getToken());
+        return user.getRole().getName();
+    }
 }

@@ -36,4 +36,9 @@ public class AuthController extends BaseController {
         log.info("POST: /logout");
         return userService.logout(logoutRequest);
     }
+
+    @PostMapping("/role")
+    public String getUserRole(@RequestBody LogoutRequest request) {
+        return userService.getRole(request);
+    }
 }
