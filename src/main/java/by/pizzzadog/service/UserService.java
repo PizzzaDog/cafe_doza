@@ -59,7 +59,7 @@ public class UserService {
 
     public SessionUserDto loginUser(LoginRequestDto loginDto) {
         MyUser user = userRepository.findByEmail(loginDto.getEmail())
-                .orElseThrow(() -> new AuthException("User with this email not found"));
+                .orElseThrow(() -> new AuthException("User with this email not found " + loginDto.getEmail()));
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             throw new RuntimeException("Wrong password for user " + loginDto.getEmail());
         }
@@ -102,5 +102,11 @@ public class UserService {
             return userMapper.toSessionUserDto(qrForUser.getUser());
         }
         return null;
+    }
+
+    public SessionUserDto refreshSessionUser(LogTokenRequest logTokenRequest) {
+        MyUser user = getValidUserByEmailAndToken(logTokenRequest.getEmail(),
+                logTokenRequest.getToken());
+        return userMapper.toSessionUserDto(user);
     }
 }

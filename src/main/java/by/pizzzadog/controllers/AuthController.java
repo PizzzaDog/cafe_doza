@@ -36,6 +36,12 @@ public class AuthController extends BaseController {
         return userService.logout(logTokenRequest);
     }
 
+    @PostMapping("/refresh")
+    public SessionUserDto refreshSession(@RequestBody LogTokenRequest logTokenRequest) {
+        return userService.refreshSessionUser(logTokenRequest);
+    }
+
+
     @PostMapping("/role")
     public RoleResponse getUserRole(@RequestBody LogTokenRequest request) {
         return userService.getRole(request);
