@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -60,9 +61,10 @@ public class UserService {
 
     public boolean logout(LogTokenRequest logTokenRequest) {
         MyUser user = getValidUserByEmailAndToken(logTokenRequest.getEmail(), logTokenRequest.getToken());
-        tokenService.disableToken(tokenService.getByUserOrGenerate(user));
-        user.setToken(null);
-        userRepository.save(user);
+        //TODO logout disable token for all sessions
+//        tokenService.disableToken(tokenService.getByUserOrGenerate(user));
+//        user.setToken(null);
+//        userRepository.save(user);
         return true;
     }
 
@@ -73,13 +75,13 @@ public class UserService {
             throw new RuntimeException("Wrong password for user " + loginDto.getEmail());
         }
         Token token = tokenService.getByUserOrGenerate(user);
-        user.setToken(token.getValue());
-        userRepository.save(user);
         LocalDateTime deadDate = token.getDeadDate();
-
         if (deadDate != null && deadDate.isBefore(LocalDateTime.now())) {
             tokenService.disableToken(token);
+            user.setToken(tokenService.generateToken(user).getValue());
         }
+        user.setToken(token.getValue());
+        userRepository.save(user);
         return userMapper.toSessionUserDto(user);
     }
 
@@ -120,6 +122,12 @@ public class UserService {
     }
 
     public SessionUserDto addCupsToUser(BonusUserDto bonusUserDto) {
+        //TODO remove after test
+        if (bonusUserDto != null && bonusUserDto.getAdminEmail() != null && bonusUserDto.getAdminEmail().equals("test_admin")) {
+            return testOnlyAddCups(bonusUserDto);
+        }
+
+
         RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
         if (!"ADMIN".equals(role.getRole())) {
             throw new RuntimeException("ACCESS DENIED");
@@ -144,12 +152,66 @@ public class UserService {
     }
 
     public SessionUserDto removeGiftsFromUser(BonusUserDto bonusUserDto) {
+        //TODO remove after test
+        if (bonusUserDto != null && bonusUserDto.getAdminEmail() != null && bonusUserDto.getAdminEmail().equals("test_admin")) {
+            return testOnlyRemoveGifts(bonusUserDto);
+        }
+
+
         RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
         if (!"ADMIN".equals(role.getRole())) {
             throw new RuntimeException("ACCESS DENIED");
         }
         MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
+        Integer count = bonusUserDto.getCount();
+        if (user.getGifts() < count) {
+            throw new RuntimeException("Not enough gifts for user " + bonusUserDto.getName() + bonusUserDto.getEmail());
+        }
+        user.setGifts(user.getGifts() - count);
+        return userMapper.toSessionUserDto(userRepository.save(user));
+    }
+
+    @Deprecated
+    public SessionUserDto testOnlyAddCups(BonusUserDto bonusUserDto) {
+
+        RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
+        if (!"ADMIN".equals(role.getRole())) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
+        MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
+        //TODO check name
+        if (!Objects.equals(user.getEmail(), "test_user")) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
+        Integer currentCups = user.getCups();
+        currentCups += bonusUserDto.getCount();
+        while (currentCups >= 10) {
+            user.setGifts(user.getGifts() + 1);
+            currentCups -= 10;
+        }
+        user.setCups(currentCups);
+        Cup cup = new Cup();
+        cup.setCount(bonusUserDto.getCount());
+        cup.setOwner(user);
+        cup.setCreateDate(LocalDateTime.now());
+        cupRepository.save(cup);
+        userRepository.save(user);
+        return userMapper.toSessionUserDto(user);
+    }
+
+    @Deprecated
+    public SessionUserDto testOnlyRemoveGifts(BonusUserDto bonusUserDto) {
+        RoleResponse role = getRole(new LogTokenRequest(bonusUserDto.getAdminEmail(), bonusUserDto.getAdminToken()));
+        if (!"ADMIN".equals(role.getRole())) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
+        MyUser user = userRepository.findByEmail(bonusUserDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found by email " + bonusUserDto.getEmail()));
+        if (!Objects.equals(user.getEmail(), "test_user")) {
+            throw new RuntimeException("ACCESS DENIED");
+        }
         Integer count = bonusUserDto.getCount();
         if (user.getGifts() < count) {
             throw new RuntimeException("Not enough gifts for user " + bonusUserDto.getName() + bonusUserDto.getEmail());
