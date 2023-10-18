@@ -40,7 +40,7 @@ public class UserService {
     public SessionUserDto registerUser(RegisterUserDto userDto) {
         Optional<MyUser> byEmail = userRepository.findByEmail(userDto.getEmail());
         if (byEmail.isPresent()) {
-            return null;
+            throw new RuntimeException("User already exist " + userDto.getEmail());
         }
         MyUser user = new MyUser();
         user.setEmail(userDto.getEmail());
